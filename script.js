@@ -26,20 +26,6 @@ enterBtn.onclick = () => {
 yaThichaBtn.onclick = () => document.getElementById("magazine-section").classList.remove("hidden");
 document.getElementById("back-btn").onclick = () => document.getElementById("magazine-section").classList.add("hidden");
 
-// Limited Swipe Logic (1 Page at a time)
-let isScrolling = false;
-scroller.addEventListener('wheel', (e) => {
-  if (isScrolling) return;
-  isScrolling = true;
-  if (e.deltaX > 0) {
-    scroller.scrollBy({ left: window.innerWidth, behavior: 'smooth' });
-  } else {
-    scroller.scrollBy({ left: -window.innerWidth, behavior: 'smooth' });
-  }
-  setTimeout(() => { isScrolling = false; }, 600);
-  e.preventDefault();
-}, { passive: false });
-
 // Birthday Timer
 setInterval(() => {
   const diff = new Date() - birthDate;
@@ -53,13 +39,12 @@ setInterval(() => {
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-// Responsive Canvas: Height reduced to 45% to stay below the timer
 function resizeCanvas() {
-  canvas.width = window.innerWidth * 0.9;
-  canvas.height = window.innerHeight * 0.45;
+  canvas.width = window.innerWidth;
+  // Canvas takes up most of the screen so the tree can grow tall
+  canvas.height = window.innerHeight * 0.85; 
 }
 
-// Handle screen rotation or resize
 window.addEventListener('resize', () => {
     if(!document.getElementById("main-content").classList.contains("hidden")) {
         resizeCanvas();
@@ -84,7 +69,7 @@ function startTreeAnimation() {
       ctx.arc(0, -len, 5, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
-      yaThichaBtn.style.display = "block";
+      yaThichaBtn.style.display = "block"; 
       return;
     }
 
@@ -97,6 +82,6 @@ function startTreeAnimation() {
     }, 150);
   }
   
-  // Trunk size reduced to 0.2 to prevent the tree from growing too tall
-  drawBranch(canvas.width / 2, canvas.height * 0.95, canvas.height * 0.2, 0, 7);
-      }
+  // Starts at bottom middle of the canvas
+  drawBranch(canvas.width / 2, canvas.height, canvas.height * 0.22, 0, 7);
+}
