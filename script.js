@@ -12,7 +12,7 @@ input.addEventListener("input", () => {
 
 enterBtn.onclick = () => {
   if (input.value === correctCode) {
-    document.getElementById("bg-music").play();
+    document.getElementById("bg-music").play().catch(e => console.log("Audio play prevented by browser"));
     document.getElementById("lobby-screen").style.display = "none";
     document.getElementById("main-content").classList.remove("hidden");
     resizeCanvas();
@@ -53,10 +53,19 @@ setInterval(() => {
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
+// UPDATE: Fixed resize logic so canvas doesn't overlap header/button on mobile
 function resizeCanvas() {
   canvas.width = window.innerWidth * 0.9;
-  canvas.height = window.innerHeight * 0.7;
+  // Reduced from 0.7 to 0.55 so the tree fits safely between the timer and the button
+  canvas.height = window.innerHeight * 0.55; 
 }
+
+// Ensure canvas resizes if user rotates their phone
+window.addEventListener('resize', () => {
+    if(!document.getElementById("main-content").classList.contains("hidden")) {
+        resizeCanvas();
+    }
+});
 
 function startTreeAnimation() {
   function drawBranch(x, y, len, angle, width) {
@@ -88,5 +97,6 @@ function startTreeAnimation() {
       drawBranch(nx, ny, len * 0.78, angle - 25, width * 0.7);
     }, 150);
   }
-  drawBranch(canvas.width / 2, canvas.height, canvas.height * 0.22, 0, 7);
-}
+  // Draw starting slightly higher up from the very bottom of the canvas
+  drawBranch(canvas.width / 2, canvas.height * 0.95, canvas.height * 0.22, 0, 7);
+                                                                 }
