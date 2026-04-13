@@ -2,14 +2,15 @@
 
 body {
   margin: 0;
-  height: 100vh;
+  height: 100vh; /* Fallback */
+  height: 100dvh; /* Dynamic viewport height fix for iOS/Android */
   width: 100vw;
   background: linear-gradient(180deg, #fff0f5, #ffe4ec);
   font-family: 'Quicksand', sans-serif;
   overflow: hidden;
 }
 
-/* ---------- LOBBY (RESTORED ORIGINAL) ---------- */
+/* ---------- LOBBY ---------- */
 #lobby-screen {
   position: fixed;
   inset: 0;
@@ -66,40 +67,44 @@ button#enter-btn:disabled { opacity: 0.5; }
 /* ---------- MAIN CONTENT ---------- */
 #main-content {
   text-align: center;
-  height: 100vh;
+  height: 100vh; /* Fallback */
+  height: 100dvh; /* Dynamic viewport */
   width: 100vw;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 10vh;
+  padding-top: clamp(5vh, 10vh, 12vh);
 }
 
 .header {
   font-family: 'Dancing Script', cursive;
-  font-size: clamp(2.5rem, 7vw, 4rem);
+  font-size: clamp(2.2rem, 8vw, 4rem); /* Improved scaling */
   color: #ff4d6d;
   z-index: 10;
+  padding: 0 10px;
 }
 
 #timer {
   display: flex;
   justify-content: center;
-  gap: 12px;
-  margin-top: 30px;
+  flex-wrap: wrap; /* Lets it wrap if screen is too thin */
+  gap: 10px;
+  margin-top: 20px;
   z-index: 10;
+  padding: 0 10px;
 }
 
 .time-box {
   background: white;
-  padding: 10px;
+  padding: 8px 10px;
   border-radius: 16px;
-  min-width: 70px;
+  min-width: clamp(60px, 15vw, 75px); /* Responsive box sizes */
   animation: float 2s ease-in-out infinite;
   box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
-.time-box span { display: block; font-weight: 700; font-size: 1.3rem; color: #ff4d6d; }
+.time-box span { display: block; font-weight: 700; font-size: 1.2rem; color: #ff4d6d; }
 .time-box small { font-size: 0.7rem; color: #a4133c; }
 
 @keyframes float { 50% { transform: translateY(-6px); } }
@@ -115,7 +120,7 @@ button#enter-btn:disabled { opacity: 0.5; }
 
 #ya-thicha-btn {
   position: absolute;
-  bottom: 8vh;
+  bottom: clamp(6vh, 10dvh, 12vh); /* Uses dynamic sizing so it won't hide behind browser bar */
   display: none;
   padding: 15px 40px;
   background: #ff85a1;
@@ -135,13 +140,15 @@ button#enter-btn:disabled { opacity: 0.5; }
   inset: 0;
   background: #000;
   z-index: 2000;
+  height: 100vh; /* Fallback */
+  height: 100dvh;
 }
 
 .magazine-scroller {
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  height: 100vh;
+  height: 100%;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 }
@@ -150,12 +157,12 @@ button#enter-btn:disabled { opacity: 0.5; }
 
 .page {
   flex: 0 0 100vw;
-  height: 100vh;
+  height: 100%;
   scroll-snap-align: start;
-  scroll-snap-stop: always; /* Force stop at each page */
+  scroll-snap-stop: always;
 }
 
-.page img { width: 100%; height: 100%; object-fit: cover; }
+.page img { width: 100%; height: 100%; object-fit: contain; /* changed from cover so photos don't get cropped weirdly */ }
 
 #back-btn {
   position: absolute;
@@ -167,24 +174,25 @@ button#enter-btn:disabled { opacity: 0.5; }
   padding: 10px 20px;
   border-radius: 20px;
   z-index: 2001;
+  font-size: 1rem;
 }
 
 /* ---------- SQUARE CORNERS ---------- */
 .corner-img {
   position: absolute;
-  width: clamp(60px, 12vw, 90px);
+  width: clamp(50px, 12vw, 80px); /* Slightly smaller so they don't block layout */
   aspect-ratio: 1/1;
   object-fit: cover;
-  z-index: 2; /* Behind text but visible */
+  z-index: 2;
   pointer-events: none;
   border: 2px solid #ffd1dc;
   border-radius: 4px;
 }
 
-.tl { top: 0; left: 0; }
-.tr { top: 0; right: 0; }
-.bl { bottom: 0; left: 0; }
-.br { bottom: 0; right: 0; }
+.tl { top: 10px; left: 10px; }
+.tr { top: 10px; right: 10px; }
+.bl { bottom: 10px; left: 10px; }
+.br { bottom: 10px; right: 10px; }
 
 .spin { animation: kitty-spin 10s linear infinite; }
 @keyframes kitty-spin { to { transform: rotate(360deg); } }
