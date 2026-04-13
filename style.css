@@ -3,7 +3,7 @@
 body {
   margin: 0;
   height: 100vh;
-  height: 100dvh;
+  height: 100dvh; /* Fixes mobile browser bar issues */
   width: 100vw;
   background: linear-gradient(180deg, #fff0f5, #ffe4ec);
   font-family: 'Quicksand', sans-serif;
@@ -29,12 +29,6 @@ body {
   box-shadow: 0 20px 40px rgba(255, 133, 161, 0.25);
 }
 
-.exe b {
-  font-weight: 700;
-  color: #ff4d6d;
-  font-size: 0.9rem;
-}
-
 input {
   width: 70%;
   padding: 12px;
@@ -58,12 +52,6 @@ button#enter-btn {
 
 button#enter-btn:disabled { opacity: 0.5; }
 
-.hint-text {
-  font-size: 0.8rem;
-  margin-top: 10px;
-  color: #ff4d6d;
-}
-
 /* ---------- MAIN CONTENT ---------- */
 #main-content {
   text-align: center;
@@ -76,10 +64,10 @@ button#enter-btn:disabled { opacity: 0.5; }
   padding-top: 8vh;
 }
 
-/* This forces the timer to stay in front of the tree */
+/* Forces the header/timer to stay IN FRONT of the tree */
 #intro-wrap {
   position: relative;
-  z-index: 50; /* High z-index to stay in front */
+  z-index: 50; 
   pointer-events: none; 
 }
 
@@ -87,7 +75,6 @@ button#enter-btn:disabled { opacity: 0.5; }
   font-family: 'Dancing Script', cursive;
   font-size: clamp(2.2rem, 8vw, 4rem);
   color: #ff4d6d;
-  text-shadow: 0 2px 10px rgba(255, 255, 255, 0.8);
 }
 
 #timer {
@@ -98,13 +85,12 @@ button#enter-btn:disabled { opacity: 0.5; }
 }
 
 .time-box {
-  background: #ffffff; /* Solid background so tree is blocked */
+  background: #ffffff; /* Solid white blocks the branches */
   padding: 8px 10px;
   border-radius: 16px;
   min-width: clamp(60px, 15vw, 75px);
   animation: float 2s ease-in-out infinite;
   box-shadow: 0 8px 15px rgba(255, 133, 161, 0.15);
-  position: relative;
   z-index: 51;
 }
 
@@ -113,18 +99,19 @@ button#enter-btn:disabled { opacity: 0.5; }
 
 @keyframes float { 50% { transform: translateY(-6px); } }
 
-/* ---------- TREE & BUTTON ---------- */
+/* ---------- THE TREE ---------- */
 #canvas {
   position: absolute;
-  top: 60%; 
+  bottom: 0; /* Pin to the very bottom */
   left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10; /* Lower than timer, higher than background */
+  transform: translateX(-50%);
+  z-index: 10; /* Lower than timer (50), higher than background */
+  pointer-events: none;
 }
 
 #ya-thicha-btn {
   position: absolute;
-  bottom: 10dvh;
+  bottom: 8dvh;
   display: none;
   padding: 15px 40px;
   background: #ff85a1;
@@ -138,41 +125,13 @@ button#enter-btn:disabled { opacity: 0.5; }
   box-shadow: 0 10px 20px rgba(255, 133, 161, 0.3);
 }
 
-/* ---------- MAGAZINE ---------- */
-#magazine-section {
-  position: fixed;
-  inset: 0;
-  background: #000;
-  z-index: 2000;
-}
-
-.magazine-scroller {
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  height: 100%;
-}
-
-.page {
-  flex: 0 0 100vw;
-  height: 100%;
-}
-
+/* ---------- MAGAZINE & CORNERS ---------- */
+#magazine-section { position: fixed; inset: 0; background: #000; z-index: 2000; }
+.magazine-scroller { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; height: 100%; }
+.page { flex: 0 0 100vw; height: 100%; }
 .page img { width: 100%; height: 100%; object-fit: contain; }
+#back-btn { position: absolute; top: 20px; right: 20px; background: #ff85a1; color: white; border: none; padding: 10px 20px; border-radius: 20px; z-index: 2001; }
 
-#back-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: #ff85a1;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 20px;
-  z-index: 2001;
-}
-
-/* ---------- CORNERS ---------- */
 .corner-img {
   position: absolute;
   width: clamp(50px, 12vw, 80px);
@@ -182,13 +141,10 @@ button#enter-btn:disabled { opacity: 0.5; }
   border: 2px solid #ffd1dc;
   border-radius: 4px;
 }
-
 .tl { top: 10px; left: 10px; }
 .tr { top: 10px; right: 10px; }
 .bl { bottom: 10px; left: 10px; }
 .br { bottom: 10px; right: 10px; }
-
 .spin { animation: kitty-spin 10s linear infinite; }
 @keyframes kitty-spin { to { transform: rotate(360deg); } }
-
 .hidden { display: none !important; }
