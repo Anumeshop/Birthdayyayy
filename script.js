@@ -4,6 +4,20 @@ const input = document.getElementById("code-input");
 const enterBtn = document.getElementById("enter-btn");
 const yaThichaBtn = document.getElementById("ya-thicha-btn");
 const scroller = document.getElementById("scroller");
+const bgMusic = document.getElementById("bg-music");
+
+// --- Music Visibility Logic ---
+// Stops music when tab is hidden, plays when tab is active
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    bgMusic.pause();
+  } else {
+    // Only resume if the lobby is already gone (user has logged in)
+    if (document.getElementById("lobby-screen").style.display === "none") {
+      bgMusic.play().catch(e => console.log("Playback resume failed"));
+    }
+  }
+});
 
 // Login Logic
 input.addEventListener("input", () => {
@@ -12,7 +26,7 @@ input.addEventListener("input", () => {
 
 enterBtn.onclick = () => {
   if (input.value === correctCode) {
-    document.getElementById("bg-music").play().catch(e => console.log("Audio play prevented"));
+    bgMusic.play().catch(e => console.log("Audio play prevented"));
     document.getElementById("lobby-screen").style.display = "none";
     document.getElementById("main-content").classList.remove("hidden");
     resizeCanvas();
@@ -41,7 +55,6 @@ const ctx = canvas.getContext("2d");
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
-  // Canvas takes up most of the screen so the tree can grow tall
   canvas.height = window.innerHeight * 0.85; 
 }
 
@@ -82,6 +95,5 @@ function startTreeAnimation() {
     }, 150);
   }
   
-  // Starts at bottom middle of the canvas
   drawBranch(canvas.width / 2, canvas.height, canvas.height * 0.22, 0, 7);
-}
+  }
