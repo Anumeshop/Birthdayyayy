@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Sheeya's Birthday 🎀</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Dancing+Script:wght@700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="lobby-screen">
+  <div class="lobby-card">
+    <small class="exe"><b>sheeya_birthday.exe🎀</b></small>
+    <div class="icon-wrap">🌸</div>
+    <h2>Unlock your Gift</h2>
+    <input type="password" id="code-input" maxlength="4" placeholder="••••">
+    <button id="enter-btn" disabled>Open  😈</button>
+    <p class="hint-text"><b>Hint: Asti vaneko thiye tha xaina vane anumesh dada lai message do</b></p>
+  </div>
+</div>
+
+<div id="photo-overlay"></div>
+
+<div id="main-content" class="hidden">
+  <div id="intro-wrap">
+    <h1 class="header">Happy Birthday Sheeya 🎀</h1>
+    <div id="timer">
+      <div class="time-box"><span id="days">0</span><small>Days</small></div>
+      <div class="time-box"><span id="hours">00</span><small>Hours</small></div>
+      <div class="time-box"><span id="minutes">00</span><small>Mins</small></div>
+      <div class="time-box"><span id="seconds">00</span><small>Secs</small></div>
+    </div>
+  </div>
+
+  <canvas id="canvas"></canvas>
+
+  <button id="ya-thicha-btn">Ya Thicha 😈</button>
+  <div id="magazine-section" class="hidden">
+    <div class="magazine-scroller" id="scroller">
+      <section class="page"><img src="1.png" alt="1"></section>
+      <section class="page"><img src="2.png" alt="2"></section>
+      <section class="page"><img src="3.png" alt="3"></section>
+      <section class="page"><img src="4.png" alt="4"></section>
+      <section class="page"><img src="5.png" alt="5"></section>
+      <section class="page"><img src="6.png"alt="6"></section>
+       <section class="page"><img src="7.png"alt="7"></section>
+    </div>
+    <button id="back-btn">❌</button>
+  </div>
+
+  <img src="https://i.ibb.co/Ndd4n961/IMG-20260413-093800-217.jpg" class="corner-img tl spin" alt="TL">
+  <img src="https://i.ibb.co/Ndd4n961/IMG-20260413-093800-217.jpg" class="corner-img tr spin" alt="TR">
+  <img src="https://i.ibb.co/Ndd4n961/IMG-20260413-093800-217.jpg" class="corner-img bl spin" alt="BL">
+  <img src="https://i.ibb.co/Ndd4n961/IMG-20260413-093800-217.jpg" class="corner-img br spin" alt="BR">
+
+  <audio id="bg-music" loop>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
