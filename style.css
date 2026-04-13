@@ -1,4 +1,9 @@
-* { box-sizing: border-box; margin: 0; padding: 0; }
+/* ---------- RESET & BASE ---------- */
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
 
 body {
   margin: 0;
@@ -10,7 +15,7 @@ body {
   overflow: hidden;
 }
 
-/* ---------- LOBBY ---------- */
+/* ---------- LOBBY / LOGIN ---------- */
 #lobby-screen {
   position: fixed;
   inset: 0;
@@ -29,14 +34,28 @@ body {
   box-shadow: 0 20px 40px rgba(255, 133, 161, 0.25);
 }
 
+.exe {
+  display: block;
+  margin-bottom: 10px;
+  color: #ff85a1;
+  font-size: 0.8rem;
+}
+
+.icon-wrap {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
 input {
-  width: 70%;
+  width: 80%;
   padding: 12px;
   margin: 15px auto;
   text-align: center;
   border-radius: 20px;
   border: 2px solid #ffd1dc;
   outline: none;
+  font-size: 1.2rem;
+  letter-spacing: 5px;
 }
 
 button#enter-btn {
@@ -48,9 +67,24 @@ button#enter-btn {
   color: white;
   font-weight: 600;
   cursor: pointer;
+  transition: transform 0.2s;
 }
 
-button#enter-btn:disabled { opacity: 0.5; }
+button#enter-btn:active {
+  transform: scale(0.95);
+}
+
+button#enter-btn:disabled { 
+  opacity: 0.5; 
+  cursor: not-allowed;
+}
+
+.hint-text {
+  margin-top: 15px;
+  font-size: 0.75rem;
+  color: #888;
+  line-height: 1.4;
+}
 
 /* ---------- MAIN CONTENT ---------- */
 #main-content {
@@ -64,7 +98,7 @@ button#enter-btn:disabled { opacity: 0.5; }
   padding-top: 8vh;
 }
 
-/* Forces the header/timer to stay IN FRONT of the tree */
+/* Keeps header/timer in front of the animated tree */
 #intro-wrap {
   position: relative;
   z-index: 50; 
@@ -75,6 +109,7 @@ button#enter-btn:disabled { opacity: 0.5; }
   font-family: 'Dancing Script', cursive;
   font-size: clamp(2.2rem, 8vw, 4rem);
   color: #ff4d6d;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
 }
 
 #timer {
@@ -85,7 +120,7 @@ button#enter-btn:disabled { opacity: 0.5; }
 }
 
 .time-box {
-  background: #ffffff; /* Solid white blocks the branches */
+  background: #ffffff; 
   padding: 8px 10px;
   border-radius: 16px;
   min-width: clamp(60px, 15vw, 75px);
@@ -94,25 +129,36 @@ button#enter-btn:disabled { opacity: 0.5; }
   z-index: 51;
 }
 
-.time-box span { display: block; font-weight: 700; font-size: 1.2rem; color: #ff4d6d; }
-.time-box small { font-size: 0.7rem; color: #a4133c; }
+.time-box span { 
+  display: block; 
+  font-weight: 700; 
+  font-size: 1.2rem; 
+  color: #ff4d6d; 
+}
 
-@keyframes float { 50% { transform: translateY(-6px); } }
+.time-box small { 
+  font-size: 0.7rem; 
+  color: #a4133c; 
+}
 
-/* ---------- THE TREE ---------- */
+@keyframes float { 
+  50% { transform: translateY(-6px); } 
+}
+
+/* ---------- THE TREE CANVAS ---------- */
 #canvas {
   position: absolute;
-  bottom: 0; /* Pin to the very bottom */
+  bottom: 0; 
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10; /* Lower than timer (50), higher than background */
+  z-index: 10; 
   pointer-events: none;
 }
 
 #ya-thicha-btn {
   position: absolute;
   bottom: 8dvh;
-  display: none;
+  display: none; /* Shown via JS when tree finishes */
   padding: 15px 40px;
   background: #ff85a1;
   color: white;
@@ -125,13 +171,61 @@ button#enter-btn:disabled { opacity: 0.5; }
   box-shadow: 0 10px 20px rgba(255, 133, 161, 0.3);
 }
 
-/* ---------- MAGAZINE & CORNERS ---------- */
-#magazine-section { position: fixed; inset: 0; background: #000; z-index: 2000; }
-.magazine-scroller { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; height: 100%; }
-.page { flex: 0 0 100vw; height: 100%; }
-.page img { width: 100%; height: 100%; object-fit: contain; }
-#back-btn { position: absolute; top: 20px; right: 20px; background: #ff85a1; color: white; border: none; padding: 10px 20px; border-radius: 20px; z-index: 2001; }
+/* ---------- MAGAZINE SECTION (ONE-BY-ONE SCROLL) ---------- */
+#magazine-section { 
+  position: fixed; 
+  inset: 0; 
+  background: #000; 
+  z-index: 2000; 
+}
 
+.magazine-scroller { 
+  display: flex; 
+  overflow-x: auto; 
+  /* Critical for Instagram-style snapping */
+  scroll-snap-type: x mandatory; 
+  height: 100%; 
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+/* Hide scrollbar for Chrome/Safari */
+.magazine-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.page { 
+  flex: 0 0 100vw; 
+  height: 100%; 
+  scroll-snap-align: start; 
+  /* Prevents scrolling past multiple photos at once */
+  scroll-snap-stop: always; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page img { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: contain; 
+}
+
+#back-btn { 
+  position: absolute; 
+  top: 20px; 
+  right: 20px; 
+  background: rgba(255, 133, 161, 0.8); 
+  color: white; 
+  border: none; 
+  padding: 10px 15px; 
+  border-radius: 50%; 
+  font-size: 1.2rem;
+  z-index: 2001; 
+  cursor: pointer;
+}
+
+/* ---------- CORNER DECORATIONS ---------- */
 .corner-img {
   position: absolute;
   width: clamp(50px, 12vw, 80px);
@@ -141,10 +235,15 @@ button#enter-btn:disabled { opacity: 0.5; }
   border: 2px solid #ffd1dc;
   border-radius: 4px;
 }
+
 .tl { top: 10px; left: 10px; }
 .tr { top: 10px; right: 10px; }
 .bl { bottom: 10px; left: 10px; }
 .br { bottom: 10px; right: 10px; }
+
 .spin { animation: kitty-spin 10s linear infinite; }
-@keyframes kitty-spin { to { transform: rotate(360deg); } }
+@keyframes kitty-spin { 
+  to { transform: rotate(360deg); } 
+}
+
 .hidden { display: none !important; }
