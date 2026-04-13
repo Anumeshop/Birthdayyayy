@@ -2,8 +2,8 @@
 
 body {
   margin: 0;
-  height: 100vh; /* Fallback */
-  height: 100dvh; /* Dynamic viewport height fix for iOS/Android */
+  height: 100vh;
+  height: 100dvh;
   width: 100vw;
   background: linear-gradient(180deg, #fff0f5, #ffe4ec);
   font-family: 'Quicksand', sans-serif;
@@ -67,41 +67,45 @@ button#enter-btn:disabled { opacity: 0.5; }
 /* ---------- MAIN CONTENT ---------- */
 #main-content {
   text-align: center;
-  height: 100vh; /* Fallback */
-  height: 100dvh; /* Dynamic viewport */
+  height: 100dvh;
   width: 100vw;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: clamp(5vh, 10vh, 12vh);
+  padding-top: 8vh;
+}
+
+/* This forces the timer to stay in front of the tree */
+#intro-wrap {
+  position: relative;
+  z-index: 50; /* High z-index to stay in front */
+  pointer-events: none; 
 }
 
 .header {
   font-family: 'Dancing Script', cursive;
-  font-size: clamp(2.2rem, 8vw, 4rem); /* Improved scaling */
+  font-size: clamp(2.2rem, 8vw, 4rem);
   color: #ff4d6d;
-  z-index: 10;
-  padding: 0 10px;
+  text-shadow: 0 2px 10px rgba(255, 255, 255, 0.8);
 }
 
 #timer {
   display: flex;
   justify-content: center;
-  flex-wrap: wrap; /* Lets it wrap if screen is too thin */
   gap: 10px;
   margin-top: 20px;
-  z-index: 10;
-  padding: 0 10px;
 }
 
 .time-box {
-  background: white;
+  background: #ffffff; /* Solid background so tree is blocked */
   padding: 8px 10px;
   border-radius: 16px;
-  min-width: clamp(60px, 15vw, 75px); /* Responsive box sizes */
+  min-width: clamp(60px, 15vw, 75px);
   animation: float 2s ease-in-out infinite;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 8px 15px rgba(255, 133, 161, 0.15);
+  position: relative;
+  z-index: 51;
 }
 
 .time-box span { display: block; font-weight: 700; font-size: 1.2rem; color: #ff4d6d; }
@@ -112,15 +116,15 @@ button#enter-btn:disabled { opacity: 0.5; }
 /* ---------- TREE & BUTTON ---------- */
 #canvas {
   position: absolute;
-  top: 65%;
+  top: 60%; 
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1;
+  z-index: 10; /* Lower than timer, higher than background */
 }
 
 #ya-thicha-btn {
   position: absolute;
-  bottom: clamp(6vh, 10dvh, 12vh); /* Uses dynamic sizing so it won't hide behind browser bar */
+  bottom: 10dvh;
   display: none;
   padding: 15px 40px;
   background: #ff85a1;
@@ -134,14 +138,12 @@ button#enter-btn:disabled { opacity: 0.5; }
   box-shadow: 0 10px 20px rgba(255, 133, 161, 0.3);
 }
 
-/* ---------- MAGAZINE (STEPPED SWIPE) ---------- */
+/* ---------- MAGAZINE ---------- */
 #magazine-section {
   position: fixed;
   inset: 0;
   background: #000;
   z-index: 2000;
-  height: 100vh; /* Fallback */
-  height: 100dvh;
 }
 
 .magazine-scroller {
@@ -149,42 +151,34 @@ button#enter-btn:disabled { opacity: 0.5; }
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   height: 100%;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
 }
-
-.magazine-scroller::-webkit-scrollbar { display: none; }
 
 .page {
   flex: 0 0 100vw;
   height: 100%;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
 }
 
-.page img { width: 100%; height: 100%; object-fit: contain; /* changed from cover so photos don't get cropped weirdly */ }
+.page img { width: 100%; height: 100%; object-fit: contain; }
 
 #back-btn {
   position: absolute;
   top: 20px;
   right: 20px;
-  background: rgba(255, 133, 161, 0.9);
+  background: #ff85a1;
   color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 20px;
   z-index: 2001;
-  font-size: 1rem;
 }
 
-/* ---------- SQUARE CORNERS ---------- */
+/* ---------- CORNERS ---------- */
 .corner-img {
   position: absolute;
-  width: clamp(50px, 12vw, 80px); /* Slightly smaller so they don't block layout */
+  width: clamp(50px, 12vw, 80px);
   aspect-ratio: 1/1;
   object-fit: cover;
   z-index: 2;
-  pointer-events: none;
   border: 2px solid #ffd1dc;
   border-radius: 4px;
 }
